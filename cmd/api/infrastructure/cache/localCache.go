@@ -31,3 +31,7 @@ func (c *CacheLocal) Get(key string) (model.WorkCache, bool) {
 func (c *CacheLocal) Set(key string, value *hubModel.Work, ttl time.Duration) {
 	c.data[key] = *value.ToCache()
 }
+
+func (c *CacheLocal) a() {
+	//test
+}
