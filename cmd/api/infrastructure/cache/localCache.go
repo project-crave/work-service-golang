@@ -7,31 +7,28 @@ import (
 )
 
 type CacheLocal struct {
-	data map[string]hubModel.WorkCache
+	data map[uint16]hubModel.WorkCache
 }
 
 func NewCache() *CacheLocal {
 	return &CacheLocal{
-		data: make(map[string]hubModel.WorkCache),
+		data: make(map[uint16]hubModel.WorkCache),
 	}
 }
 
 // Delete implements ICache.
-func (c *CacheLocal) Delete(key string) error {
-	panic("unimplemented")
+func (c *CacheLocal) Delete(key uint16) error {
+	delete(c.data, key)
+	return nil
 }
 
 // Get implements ICache.
-func (c *CacheLocal) Get(key string) (model.WorkCache, bool) {
+func (c *CacheLocal) Get(key uint16) (model.WorkCache, bool) {
 	value, exist := c.data[key]
 	return value, exist
 }
 
 // Set implements ICache.
-func (c *CacheLocal) Set(key string, value *hubModel.Work, ttl time.Duration) {
-	c.data[key] = *value.ToCache()
-}
-
-func (c *CacheLocal) a() {
-	//test
+func (c *CacheLocal) Set(work *hubModel.Work, ttl time.Duration) {
+	c.data[work.Id] = work.ToCache()
 }
