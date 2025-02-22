@@ -3,16 +3,17 @@ package service
 import (
 	"crave/hub/cmd/model"
 	"crave/hub/cmd/work/cmd/api/infrastructure/cache"
+	"crave/hub/cmd/work/cmd/api/infrastructure/repository"
 	"fmt"
-	"strings"
 )
 
 type Service struct {
 	cache cache.ICache
+	repo  repository.IRepository
 }
 
-func NewService(cache cache.ICache) *Service {
-	return &Service{cache: cache}
+func NewService(cache cache.ICache, repo repository.IRepository) *Service {
+	return &Service{cache: cache, repo: repo}
 }
 
 func (s *Service) SaveWork(work *model.Work) (*model.Work, error) {
