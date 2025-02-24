@@ -3,6 +3,8 @@ package repository
 import (
 	"crave/hub/cmd/model"
 	"crave/shared/database"
+	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -44,4 +46,16 @@ func (r *Repository) Create(work *model.Work) (*model.Work, error) {
 		return nil, err
 	}
 	return &createdWork, nil
+}
+
+func (r *Repository) FindById(id uint16) (*model.Work, error) {
+	var work model.Work
+	result := r.mysql.Driver.First(&work, id)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, fmt.Errorf("🛢️work with id %d not found", id)
+		}
+		return nil, fmt.Errorf("error fetching work: %w", result.Error)
+	}
+	return &work, nil
 }

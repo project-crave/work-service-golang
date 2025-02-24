@@ -8,4 +8,5 @@ import (
 type IService interface {
 	api.IService
 	SaveWork(work *model.Work) (*model.Work, error)
+	GetWork(key uint16) (*model.Work, error)
 }

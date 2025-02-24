@@ -4,7 +4,6 @@ import (
 	"crave/hub/cmd/model"
 	"crave/hub/cmd/work/cmd/api/infrastructure/cache"
 	"crave/hub/cmd/work/cmd/api/infrastructure/repository"
-	"fmt"
 )
 
 type Service struct {
@@ -24,8 +23,8 @@ func (s *Service) SaveWork(work *model.Work) (*model.Work, error) {
 
 func (s *Service) GetWork(key uint16) (*model.Work, error) {
 	workCache, exist := s.cache.Get(key)
-	if !exist {
-		return nil, fmt.Errorf("👻%s work does not exist", key)
+	if exist {
+		return workCache.ToWork(key), nil
 	}
-	return workCache.ToWork(key), nil
+	return s.repo.FindById(key)
 }

@@ -9,4 +9,5 @@ type IRepository interface {
 	api.IRepository
 	Create(*model.Work) (*model.Work, error)
 	GetLastIndex() (uint, error)
+	FindById(id uint16) (*model.Work, error)
 }
