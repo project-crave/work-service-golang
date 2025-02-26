@@ -28,3 +28,10 @@ func (s *Service) GetWork(key uint16) (*model.Work, error) {
 	}
 	return s.repo.FindById(key)
 }
+
+func (s *Service) UpdateStatus(work *model.Work, status model.Status) (*model.Work, error) {
+	work.Status = status
+	s.repo.Update(work)
+	s.cache.Set(work, 0)
+	return work, nil
+}

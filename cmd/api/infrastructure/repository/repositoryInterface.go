@@ -10,4 +10,5 @@ type IRepository interface {
 	Create(*model.Work) (*model.Work, error)
 	GetLastIndex() (uint, error)
 	FindById(id uint16) (*model.Work, error)
+	Update(*model.Work) (*model.Work, error)
 }

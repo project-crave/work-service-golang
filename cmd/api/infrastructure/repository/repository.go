@@ -59,3 +59,13 @@ func (r *Repository) FindById(id uint16) (*model.Work, error) {
 	}
 	return &work, nil
 }
+
+func (r *Repository) Update(work *model.Work) (*model.Work, error) {
+	result := r.mysql.Driver.Model(&model.Work{}).
+		Where("id = ?", work.Id).
+		Updates(work)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return work, nil
+}
