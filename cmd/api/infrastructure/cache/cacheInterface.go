@@ -6,7 +6,7 @@ import (
 )
 
 type ICache interface {
-	Set(value *model.Work, ttl time.Duration)
-	Get(key uint16) (model.WorkCache, bool)
+	Set(value *model.Work, ttl time.Duration) (*model.Work, error)
+	Get(key uint16) (*model.Work, bool)
 	Delete(key uint16) error
 }

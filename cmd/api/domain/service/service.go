@@ -22,16 +22,20 @@ func (s *Service) SaveWork(work *model.Work) (*model.Work, error) {
 }
 
 func (s *Service) GetWork(key uint16) (*model.Work, error) {
-	workCache, exist := s.cache.Get(key)
+	work, exist := s.cache.Get(key)
 	if exist {
-		return workCache.ToWork(key), nil
+		return work, nil
 	}
-	return s.repo.FindById(key)
+	work, err := s.repo.FindById(key)
+	if err != nil {
+		return nil, err
+	}
+	return s.cache.Set(work, 0)
 }
 
 func (s *Service) UpdateStatus(work *model.Work, status model.Status) (*model.Work, error) {
 	work.Status = status
-	s.repo.Update(work)
 	s.cache.Set(work, 0)
+	s.repo.Update(work)
 	return work, nil
 }
