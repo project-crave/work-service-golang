@@ -10,4 +10,5 @@ type IService interface {
 	SaveWork(work *model.Work) (*model.Work, error)
 	UpdateStatus(work *model.Work, status model.Status) (*model.Work, error)
 	GetWork(key uint16) (*model.Work, error)
+	PauseWork(workId uint16) error
 }

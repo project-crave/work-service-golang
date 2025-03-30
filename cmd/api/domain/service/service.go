@@ -39,3 +39,12 @@ func (s *Service) UpdateStatus(work *model.Work, status model.Status) (*model.Wo
 	s.repo.Update(work)
 	return work, nil
 }
+
+func (s *Service) PauseWork(workId uint16) error {
+	work, err := s.GetWork(workId)
+	if err != nil {
+		return err
+	}
+	s.UpdateStatus(work, model.PAUSE)
+	return nil
+}
